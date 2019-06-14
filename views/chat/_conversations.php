@@ -13,20 +13,24 @@
                         <img src="/assets/images/profile.png" alt="profile">
                     </div>
 
-                    <div class="chat_ib">
+                    <a class="chat_ib" href="?conversation=<?php echo $conversation->getId() ?>">
                         <h5>
                             <?php foreach ($conversation->getUsers() as $user) { ?>
-                                <?php if ($user->getId() !== $viewData['connectedUser']->getId())
+                                <?php if ($user->getId() !== $viewData['currentUser']->getId())
                                     echo $user->getName() . ', '; ?>
                             <?php } ?>
 
                             <span class="chat_date">
-                                <?php echo $conversation->getMessages()->last()->getDate()->format('M d'); ?>
+                                <?php if ($conversation->getMessages()->count())
+                                    echo $conversation->getMessages()->last()->getDate()->format('M d'); ?>
                             </span>
                         </h5>
 
-                        <p><?php echo $conversation->getMessages()->last()->getContent(); ?></p>
-                    </div>
+                        <p>
+                            <?php if ($conversation->getMessages()->count())
+                                echo $conversation->getMessages()->last()->getContent(); ?>
+                        </p>
+                    </a>
                 </div>
             </div>
         <?php } ?>

@@ -29,6 +29,16 @@ class Router
             'controller' => ChatController::class,
             'action' => 'sendMessage'
         ],
+        'select-conversation' => [
+            'pattern' => '/^\/select-conversation\/([0-9]+)$/',
+            'controller' => ChatController::class,
+            'action' => 'selectCon'
+        ],
+        'user-conversation' => [
+            'pattern' => '/^\/conversation\/user\/([0-9]+)$/',
+            'controller' => ChatController::class,
+            'action' => 'userConversation'
+        ],
 
     ];
 
@@ -59,5 +69,4 @@ class Router
         header('Location: ' . $url);
         exit;
     }
-
 }

@@ -19,6 +19,7 @@ abstract class AbstractController
     protected static function renderView($view, array $viewData = [])
     {
         require(sprintf('%s/../views/%s.php', dirname(__DIR__), $view));
+        exit;
     }
 
     /**

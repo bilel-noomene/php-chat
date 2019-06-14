@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Conversation;
 use App\Entity\Message;
+use App\Entity\User;
 use App\Helper\EntityManagerAccessor;
 
 /**
@@ -36,6 +37,36 @@ class ConversationManager
     public function getConversation($id): ?Conversation
     {
         return $this->repository->find($id);
+    }
+
+    /**
+     * @param User $firstUser
+     * @param User $secondUser
+     * @return Conversation|null
+     */
+    public function getConversationBetweenUsers(User $firstUser, User $secondUser): ?Conversation
+    {
+        foreach ($firstUser->getConversations() as $conversation) {
+            if ($conversation->getUsers()->contains($secondUser)) {
+                return $conversation;
+            }
+        }
+
+        return null;
+    }
+
+    public function createConversation(array $users): Conversation
+    {
+        $conversation = new Conversation();
+
+        foreach ($users as $user) {
+            $conversation->addUser($user);
+        }
+
+        $this->em->persist($conversation);
+        $this->em->flush();
+
+        return $conversation;
     }
 
     /**

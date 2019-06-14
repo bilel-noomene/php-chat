@@ -28,9 +28,23 @@ class UserManager
         $this->repository = $this->em->getRepository(User::class);
     }
 
-    public function getUsers()
+    /**
+     * @return User[]
+     */
+    public function getUsers(): array
     {
         return $this->repository->findAll();
+    }
+
+    /**
+     * Find user by Id.
+     *
+     * @param $id
+     * @return User|null
+     */
+    public function getUser($id): ?User
+    {
+        return $this->repository->find($id);
     }
 
     /**
@@ -44,9 +58,15 @@ class UserManager
         return $this->repository->findOneBy(['email' => $email]);
     }
 
+    /**
+     * Check if a password matches the user password.
+     *
+     * @param User $user
+     * @param string $password
+     * @return bool
+     */
     public function checkPassword(User $user, string $password): bool
     {
         return password_verify($password, $user->getPassword());
     }
-
 }

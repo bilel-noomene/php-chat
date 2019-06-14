@@ -26,7 +26,6 @@ class SecurityController extends AbstractController
                 SecurityService::getInstance()->authenticateUser($user);
 
                 self::redirectTo('/');
-                return;
             }
         }
 

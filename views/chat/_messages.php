@@ -1,6 +1,6 @@
 <div class="msg_history">
     <?php foreach ($viewData['selectedConversation']->getMessages() as $message) {
-        if ($message->getSender()->getId() === $viewData['connectedUser']->getId()) { ?>
+        if ($message->getSender()->getId() === $viewData['currentUser']->getId()) { ?>
             <div class="outgoing_msg">
                 <div class="sent_msg">
                     <p><?php echo $message->getContent(); ?></p>
