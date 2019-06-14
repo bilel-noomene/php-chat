@@ -1,0 +1,16 @@
+<?php
+
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use App\Helper\EntityManagerAccessor;
+
+require_once dirname(__DIR__) . '/bootstrap.php';
+
+
+$loader = new Loader();
+$loader->loadFromDirectory(dirname(__DIR__) . '/src/DataFixture');
+
+$purger = new ORMPurger();
+$executor = new ORMExecutor(EntityManagerAccessor::$entityManage, $purger);
+$executor->execute($loader->getFixtures());
