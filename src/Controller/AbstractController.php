@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Helper\Parameters;
+use App\Service\Router;
 
 /**
  * Helper abstract controller
@@ -57,6 +58,6 @@ abstract class AbstractController
      */
     protected static function redirectTo($url)
     {
-        header('Location: ' . $url);
+        Router::getInstance()->redirectTo($url);
     }
 }

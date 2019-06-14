@@ -3,28 +3,20 @@
 require dirname(__DIR__) . '/bootstrap.php';
 
 use App\Controller;
+use App\Service\Router;
 use App\Service\SecurityService;
 
 $route = explode('?', $_SERVER['REQUEST_URI'])[0];
+$router = Router::getInstance();
 
 try {
     session_start();
 
     if ($route !== '/login' && !SecurityService::getInstance()->userIsAuthenticated()) {
-        header('Location: /login');
-        return;
+        $router->redirectTo('/login');
     }
 
-    switch ($route) {
-        case '/':
-            Controller\ChatController::index();
-            break;
-        case '/login':
-            Controller\SecurityController::login();
-            break;
-        default:
-            Controller\ErrorController::error(404);
-    }
+    $router->matchRoute($route);
 } catch (\Exception $exception) {
     Controller\ErrorController::error(500);
 }
