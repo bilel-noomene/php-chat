@@ -12,6 +12,7 @@ class SecurityService
     use SingletonTrait;
 
     private $userManager;
+    private static $connectedUser;
 
     private function __construct()
     {
@@ -26,7 +27,6 @@ class SecurityService
     public function authenticateUser(User $user)
     {
         $_SESSION['user'] = $user->getEmail();
-
     }
 
     /**
@@ -36,11 +36,15 @@ class SecurityService
      */
     public function userIsAuthenticated(): bool
     {
+        return $this->getUser() !== null;
+    }
 
-        if (isset($_SESSION['user']) && $_SESSION['user']) {
-            return $this->userManager->getUserByEmail($_SESSION['user']) !== null;
+    public function getUser()
+    {
+        if (self::$connectedUser === null && isset($_SESSION['user']) && $_SESSION['user']) {
+            self::$connectedUser = $this->userManager->getUserByEmail($_SESSION['user']);
         }
 
-        return false;
+        return self::$connectedUser;
     }
 }

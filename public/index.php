@@ -16,6 +16,9 @@ try {
     }
 
     switch ($route) {
+        case '/':
+            Controller\ChatController::index();
+            break;
         case '/login':
             Controller\SecurityController::login();
             break;

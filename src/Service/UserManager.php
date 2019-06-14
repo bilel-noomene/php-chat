@@ -28,6 +28,11 @@ class UserManager
         $this->repository = $this->em->getRepository(User::class);
     }
 
+    public function getUsers()
+    {
+        return $this->repository->findAll();
+    }
+
     /**
      * Retrieve the user by email.
      *
