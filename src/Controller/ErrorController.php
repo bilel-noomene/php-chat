@@ -14,5 +14,6 @@ class ErrorController extends AbstractController
     public static function error(int $code)
     {
         self::renderView('error/error-' . $code);
+        exit;
     }
 }

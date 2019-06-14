@@ -16,18 +16,22 @@
         <?php include __DIR__ . '/_conversations.php' ?>
 
         <div class="mesgs">
-            <?php include __DIR__ . '/_messages.php' ?>
+            <?php if ($viewData['selectedConversation']) { ?>
 
-            <div class="type_msg">
-                <div class="input_msg_write">
-                    <form method="post" action="/send-message">
-                        <input type="text" class="write_msg" placeholder="Type a message"/>
-                        <button class="msg_send_btn">
-                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        </button>
-                    </form>
+                <?php include __DIR__ . '/_messages.php' ?>
+
+                <div class="type_msg">
+                    <div class="input_msg_write">
+                        <form method="post"
+                              action="/send-message/<?php echo $viewData['selectedConversation']->getId() ?>">
+                            <input type="text" name="message" class="write_msg" placeholder="Type a message"/>
+                            <button class="msg_send_btn">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
         </div>
 
         <?php include __DIR__ . '/_people.php' ?>

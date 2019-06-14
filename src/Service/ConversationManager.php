@@ -2,7 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\User;
+use App\Entity\Conversation;
+use App\Entity\Message;
 use App\Helper\EntityManagerAccessor;
 
 /**
@@ -25,6 +26,35 @@ class ConversationManager
     private function __construct()
     {
         $this->em = EntityManagerAccessor::$entityManage;
-        $this->repository = $this->em->getRepository(User::class);
+        $this->repository = $this->em->getRepository(Conversation::class);
+    }
+
+    /**
+     * @param $id
+     * @return Conversation
+     */
+    public function getConversation($id): ?Conversation
+    {
+        return $this->repository->find($id);
+    }
+
+    /**
+     * Create and append a new message to the conversation.
+     *
+     * @param Conversation $conversation
+     * @param string $content
+     */
+    public function appendMessage(Conversation $conversation, string $content)
+    {
+        $message = new Message();
+
+        $message
+            ->setConversation($conversation)
+            ->setSender(SecurityService::getInstance()->getUser())
+            ->setContent($content)
+            ->setDate(new \DateTime());
+
+        $this->em->persist($message);
+        $this->em->flush();
     }
 }

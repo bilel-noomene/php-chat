@@ -24,6 +24,11 @@ class Router
             'controller' => ChatController::class,
             'action' => 'index'
         ],
+        'send-message' => [
+            'pattern' => '/^\/send-message\/([0-9]+)$/',
+            'controller' => ChatController::class,
+            'action' => 'sendMessage'
+        ],
 
     ];
 

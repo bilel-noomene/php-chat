@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\ConversationManager;
 use App\Service\SecurityService;
 use App\Service\UserManager;
 
@@ -24,5 +25,25 @@ class ChatController extends AbstractController
         ];
 
         self::renderView('chat/index', $data);
+    }
+
+    /**
+     * Post a new message.
+     *
+     * @param $conversationId
+     */
+    public static function sendMessage($conversationId)
+    {
+        $conversationManager = ConversationManager::getInstance();
+
+        if (!($conversation = $conversationManager->getConversation($conversationId))) {
+            ErrorController::error(404);
+        }
+
+        if ($messageContent = self::postParams()->get('message')) {
+            $conversationManager->appendMessage($conversation, $messageContent);
+        }
+
+        self::redirectTo('/');
     }
 }
