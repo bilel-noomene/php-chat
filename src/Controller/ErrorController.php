@@ -5,14 +5,14 @@ namespace App\Controller;
 /**
  * Controller for handling error pages
  */
-class ErrorController
+class ErrorController extends AbstractController
 {
 
     /**
      * @param int $code Status code: 404 | 500
      */
-    static public function error(int $code)
+    public static function error(int $code)
     {
-        require sprintf('%s/../views/error/error-%s.php', dirname(__DIR__), $code);
+        self::renderView('error/error-' . $code);
     }
 }

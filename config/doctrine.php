@@ -1,5 +1,6 @@
 <?php
 
+use App\Helper\EntityManagerAccessor;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
@@ -14,4 +15,4 @@ $dbParams = [
 ];
 
 $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
-$entityManager = EntityManager::create($dbParams, $config);
+EntityManagerAccessor::$entityManage = EntityManager::create($dbParams, $config);

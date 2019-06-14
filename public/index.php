@@ -3,11 +3,22 @@
 require dirname(__DIR__) . '/bootstrap.php';
 
 use App\Controller;
+use App\Service\SecurityService;
 
-$route = $_SERVER['REQUEST_URI'];
+$route = explode('?', $_SERVER['REQUEST_URI'])[0];
 
 try {
+    session_start();
+
+    if ($route !== '/login' && !SecurityService::getInstance()->userIsAuthenticated()) {
+        header('Location: /login');
+        return;
+    }
+
     switch ($route) {
+        case '/login':
+            Controller\SecurityController::login();
+            break;
         default:
             Controller\ErrorController::error(404);
     }
